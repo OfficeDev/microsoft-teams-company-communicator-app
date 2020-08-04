@@ -8,6 +8,8 @@ namespace Microsoft.Teams.Apps.CompanyCommunicator.NotificationDelivery
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
+    using Microsoft.ApplicationInsights;
+    using Microsoft.ApplicationInsights.DataContracts;
     using Microsoft.Bot.Connector;
     using Microsoft.Bot.Connector.Authentication;
     using Microsoft.Extensions.Configuration;
@@ -23,6 +25,7 @@ namespace Microsoft.Teams.Apps.CompanyCommunicator.NotificationDelivery
         private readonly IConfiguration configuration;
         private readonly UserDataRepository userDataRepository;
         private readonly TeamDataRepository teamDataRepository;
+        private readonly TelemetryClient telemetryClient;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MetadataProvider"/> class.
@@ -33,11 +36,13 @@ namespace Microsoft.Teams.Apps.CompanyCommunicator.NotificationDelivery
         public MetadataProvider(
             IConfiguration configuration,
             UserDataRepository userDataRepository,
-            TeamDataRepository teamDataRepository)
+            TeamDataRepository teamDataRepository,
+            TelemetryClient telemetryClient)
         {
             this.configuration = configuration;
             this.userDataRepository = userDataRepository;
             this.teamDataRepository = teamDataRepository;
+            this.telemetryClient = telemetryClient;
         }
 
         /// <summary>
@@ -145,16 +150,22 @@ namespace Microsoft.Teams.Apps.CompanyCommunicator.NotificationDelivery
 
                     if (member.Properties is JObject jObject)
                     {
+                        if (jObject["objectId"] == null)
+                        {
+                            this.telemetryClient.TrackTrace($"Unexpected Channel Member ID '{member.Id}' getted from '{teamId}' this user probably might left or excluded from tenant.", SeverityLevel.Warning);
+                            return null;
+                        }
+
+                        userDataEntity.AadId = jObject["objectId"].ToString();
                         userDataEntity.Email = jObject["email"]?.ToString();
                         userDataEntity.Upn = jObject["userPrincipalName"]?.ToString();
-                        userDataEntity.AadId = jObject["objectId"].ToString();
                         userDataEntity.TenantId = jObject["tenantId"].ToString();
                         userDataEntity.ConversationId = null;
                         userDataEntity.ServiceUrl = serviceUrl;
                     }
 
                     return userDataEntity;
-                });
+                }).Where(member => member != null);
             }
             catch
             {
