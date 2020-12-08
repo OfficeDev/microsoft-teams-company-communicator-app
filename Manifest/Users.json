@@ -23,20 +23,22 @@
     "full": "Broadcasts messages to multiple teams and individuals through channel posts and chat messages"
   },
   "accentColor": "#64A2CC",
-  "bots": [{
-    "botId": "<<botId>>",
-    "scopes": [
-      "personal",
-      "team"
-    ],
-    "supportsFiles": false,
-    "isNotificationOnly": false
-  }],
+  "bots": [
+    {
+      "botId": "d9221160-d09d-40cd-bf6e-ac0de0957ec8",
+      "scopes": [
+        "personal",
+        "team"
+      ],
+      "supportsFiles": false,
+      "isNotificationOnly": false
+    }
+  ],
   "permissions": [
     "identity",
     "messageTeamMembers"
   ],
   "validDomains": [
-    "<<appDomain>>"
+    "twxccmultipleattachment123.azurefd.net"
   ]
 }

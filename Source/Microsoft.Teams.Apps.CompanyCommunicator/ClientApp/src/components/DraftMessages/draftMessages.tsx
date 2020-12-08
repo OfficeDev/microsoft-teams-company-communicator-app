@@ -2,7 +2,8 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { withTranslation, WithTranslation } from "react-i18next";
 import { initializeIcons } from 'office-ui-fabric-react/lib/Icons';
-import { Loader, List, Flex, Text } from '@stardust-ui/react';
+import { List } from '@stardust-ui/react';
+import { Box, CircularProgress } from '@material-ui/core';
 import * as microsoftTeams from "@microsoft/teams-js";
 
 import './draftMessages.scss';
@@ -42,7 +43,7 @@ export interface IMessageProps extends WithTranslation {
 export interface IMessageState {
   message: IMessage[];
   itemsAccount: number;
-  loader: boolean;
+  CircularProgress: boolean;
   teamsTeamId?: string;
   teamsChannelId?: string;
 }
@@ -60,7 +61,7 @@ class DraftMessages extends React.Component<IMessageProps, IMessageState> {
     this.state = {
       message: props.messages,
       itemsAccount: this.props.messages.length,
-      loader: true,
+      CircularProgress: true,
       teamsTeamId: "",
       teamsChannelId: "",
     };
@@ -83,7 +84,7 @@ class DraftMessages extends React.Component<IMessageProps, IMessageState> {
   public componentWillReceiveProps(nextProps: any) {
     this.setState({
       message: nextProps.messages,
-      loader: false
+      CircularProgress: false
     })
   }
 
@@ -97,17 +98,18 @@ class DraftMessages extends React.Component<IMessageProps, IMessageState> {
       keyCount++;
       const out = {
         key: keyCount,
-        content: (
-          <Flex vAlign="center" fill gap="gap.small">
-            <Flex.Item shrink={0} grow={1}>
-              <Text>{message.title}</Text>
-            </Flex.Item>
-            <Flex.Item shrink={0} hAlign="end" vAlign="center">
-              <Overflow message={message} title="" />
-            </Flex.Item>
-          </Flex>
+          content: (
+              <div className="dFlex">
+                  <Box>
+                      <Box>
+                        { message.title }
+                      </Box>
+                      <Box>
+                        <Overflow message={ message } title="" />
+                      </Box>
+                </Box>
+            </div>
         ),
-        styles: { margin: '0.2rem 0.2rem 0 0' },
         onClick: (): void => {
             let url = getBaseUrl() + "/newmessage/" + message.id + "?locale={locale}";
             this.onOpenTaskModule(null, url, this.localize("EditMessage"));
@@ -120,9 +122,9 @@ class DraftMessages extends React.Component<IMessageProps, IMessageState> {
     const outList = this.state.message.map(processItem);
     const allDraftMessages = [...label, ...outList];
 
-    if (this.state.loader) {
+      if (this.state.CircularProgress) {
       return (
-        <Loader />
+          <CircularProgress />
       );
     } else if (this.state.message.length === 0) {
         return (<div className="results">{this.localize("EmptyDraftMessages")}</div>);
@@ -137,19 +139,13 @@ class DraftMessages extends React.Component<IMessageProps, IMessageState> {
   private processLabels = () => {
     const out = [{
       key: "labels",
-      content: (
-        <Flex vAlign="center" fill gap="gap.small">
-          <Flex.Item>
-            <Text
-              truncated
-              weight="bold"
-              content={this.localize("TitleText")}
-            >
-            </Text>
-          </Flex.Item>
-        </Flex>
+        content: (
+            <div>
+                <Box>
+                    { this.localize("TitleText") }
+                </Box>
+            </div>
       ),
-      styles: { margin: '0.2rem 0.2rem 0 0' },
     }];
     return out;
   }

@@ -40,9 +40,14 @@ namespace Microsoft.Teams.Apps.CompanyCommunicator.Common
         public const string ClaimTypeUserId = "http://schemas.microsoft.com/identity/claims/objectidentifier";
 
         /// <summary>
-        /// blob container name.
+        /// export blob container name.
         /// </summary>
         public const string BlobContainerName = "exportdatablobs";
+
+        /// <summary>
+        /// attachment blob container name.
+        /// </summary>
+        public const string AttachmentBlobContainerName = "attachmentdatablobs";
 
         /// <summary>
         /// get the group type Hidden Membership.

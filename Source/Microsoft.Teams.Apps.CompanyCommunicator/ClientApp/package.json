@@ -3,6 +3,8 @@
   "version": "3.0.0",
   "private": true,
   "dependencies": {
+    "@material-ui/core": "^4.11.0",
+    "@material-ui/icons": "^4.9.1",
     "@microsoft/teams-js": "^1.4.2",
     "@stardust-ui/react": "^0.34.0",
     "adaptivecards": "^1.2.0",

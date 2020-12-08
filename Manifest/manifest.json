@@ -23,30 +23,34 @@
     "full": "Broadcasts messages to multiple teams and individuals through channel posts and chat messages"
   },
   "accentColor": "#64A2CC",
-  "configurableTabs": [{
-    "configurationUrl": "https://<<appDomain>>/configtab",
-    "canUpdateConfiguration": true,
-    "scopes": [
-      "team"
-    ]
-  }],
-  "bots": [{
-    "botId": "<<botId>>",
-    "scopes": [
-      "team"
-    ],
-    "supportsFiles": true,
-    "isNotificationOnly": false
-  }],
+  "configurableTabs": [
+    {
+      "configurationUrl": "https://twxccmultipleattachment123.azurefd.net/configtab",
+      "canUpdateConfiguration": true,
+      "scopes": [
+        "team"
+      ]
+    }
+  ],
+  "bots": [
+    {
+      "botId": "d9221160-d09d-40cd-bf6e-ac0de0957ec8",
+      "scopes": [
+        "team"
+      ],
+      "supportsFiles": true,
+      "isNotificationOnly": false
+    }
+  ],
   "permissions": [
     "identity",
     "messageTeamMembers"
   ],
   "validDomains": [
-    "<<appDomain>>"
+    "twxccmultipleattachment123.azurefd.net"
   ],
   "webApplicationInfo": {
-    "id": "<<botId>>",
-    "resource": "api://<<appDomain>>"
+    "id": "d9221160-d09d-40cd-bf6e-ac0de0957ec8",
+    "resource": "api://twxccmultipleattachment123.azurefd.net"
   }
 }

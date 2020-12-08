@@ -5,7 +5,9 @@ import DraftMessages from '../DraftMessages/draftMessages';
 import './tabContainer.scss';
 import * as microsoftTeams from "@microsoft/teams-js";
 import { getBaseUrl } from '../../configVariables';
-import { Accordion, Button } from '@stardust-ui/react';
+import { Button, Accordion, Typography, AccordionSummary, AccordionDetails } from '@material-ui/core';
+import ArrowDropDownCircleOutlinedIcon from '@material-ui/icons/ArrowDropDownCircleOutlined';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { getDraftMessagesList } from '../../actions';
 import { connect } from 'react-redux';
 import { TFunction } from "i18next";
@@ -59,6 +61,7 @@ class TabContainer extends React.Component<ITaskInfoProps, ITabContainerState> {
         const panels = [
             {
                 title: this.localize('DraftMessagesSectionTitle'),
+                id: '',
                 content: {
                     key: 'sent',
                     content: (
@@ -82,13 +85,48 @@ class TabContainer extends React.Component<ITaskInfoProps, ITabContainerState> {
         ]
         return (
             <div className="tabContainer">
-                <div className="newPostBtn">
-                    <Button content={this.localize("NewMessage")} onClick={this.onNewMessage} primary />
-                </div>
+                <Button className="newPostBtn" variant="contained" color="primary" onClick={() => { this.onNewMessage() }}>
+                    New Message
+                </Button>
                 <div className="messageContainer">
-                    <Accordion defaultActiveIndex={[0, 1]} panels={panels} />
+                    <Accordion>
+                        <AccordionSummary
+                            expandIcon={<ExpandMoreIcon />}
+                            aria-controls="panel1a-content"
+                            id="panel1a-header"
+                        > 
+                            <Typography>{ this.localize('DraftMessagesSectionTitle') }
+                        </Typography>
+                        </AccordionSummary>
+                        <AccordionDetails>
+                            <Typography>
+                                <div className="messages">
+                                    <DraftMessages></DraftMessages>
+                                </div>
+                            </Typography>
+                        </AccordionDetails>
+                    </Accordion>
+                    <Accordion>
+                        <AccordionSummary
+                            expandIcon={<ExpandMoreIcon />}
+                            aria-controls="panel1a-content"
+                            id="panel1a-header"
+                        >
+                            <Typography>{ this.localize('SentMessagesSectionTitle') }
+                        </Typography>
+                        </AccordionSummary>
+                        <AccordionDetails>
+                            <Typography>
+                                <div className="messages">
+                                    <Messages></Messages>
+                                </div>
+                            </Typography>
+                        </AccordionDetails>
+                    </Accordion>
                 </div>
             </div>
+
+
         );
     }
 

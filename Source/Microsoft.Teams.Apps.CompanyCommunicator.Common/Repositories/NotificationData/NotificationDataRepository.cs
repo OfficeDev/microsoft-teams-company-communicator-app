@@ -6,7 +6,11 @@ namespace Microsoft.Teams.Apps.CompanyCommunicator.Common.Repositories.Notificat
 {
     using System;
     using System.Collections.Generic;
+    using System.IO;
     using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.Azure.Storage;
+    using Microsoft.Azure.Storage.Blob;
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Options;
 
@@ -15,6 +19,8 @@ namespace Microsoft.Teams.Apps.CompanyCommunicator.Common.Repositories.Notificat
     /// </summary>
     public class NotificationDataRepository : BaseRepository<NotificationDataEntity>
     {
+        private readonly CloudBlobContainer attachmentBlobContainer;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="NotificationDataRepository"/> class.
         /// </summary>
@@ -33,6 +39,17 @@ namespace Microsoft.Teams.Apps.CompanyCommunicator.Common.Repositories.Notificat
                   ensureTableExists: repositoryOptions.Value.EnsureTableExists)
         {
             this.TableRowKeyGenerator = tableRowKeyGenerator;
+
+            CloudStorageAccount storage = CloudStorageAccount.Parse(repositoryOptions.Value.StorageAccountConnectionString);
+            CloudBlobClient client = storage.CreateCloudBlobClient();
+            this.attachmentBlobContainer = client.GetContainerReference(Common.Constants.AttachmentBlobContainerName);
+            this.attachmentBlobContainer.CreateIfNotExists();
+
+            BlobContainerPermissions permissions = new BlobContainerPermissions
+            {
+                PublicAccess = BlobContainerPublicAccessType.Off,
+            };
+            this.attachmentBlobContainer.SetPermissions(permissions);
         }
 
         /// <summary>
@@ -236,6 +253,20 @@ namespace Microsoft.Teams.Apps.CompanyCommunicator.Common.Repositories.Notificat
                 this.Logger.LogError(ex, ex.Message);
                 throw;
             }
+        }
+
+        /// <summary>
+        /// Upload the attachment to blob storage.
+        /// </summary>
+        /// <param name="uploadData">File attachment.</param>
+        /// <returns>Returns the Uri of an attachment uploaded to blob storage.</returns>
+        public async Task<string> UploadAsync(IFormFile uploadData)
+        {
+            // Upload the file to blob storage.
+            CloudBlockBlob attachmentBlob = this.attachmentBlobContainer.GetBlockBlobReference(uploadData.FileName);
+            await attachmentBlob.UploadFromStreamAsync(uploadData.OpenReadStream());
+
+            return attachmentBlob.Uri.ToString();
         }
 
         private string AppendNewLine(string originalString, string newString)

@@ -73,6 +73,8 @@ export interface formState {
     selectedGroups: dropdownItem[],
     errorImageUrlMessage: string,
     errorButtonUrlMessage: string,
+    fileTitle?: string,
+    file?: any,
 }
 
 export interface INewMessageProps extends RouteComponentProps, WithTranslation {
@@ -118,6 +120,8 @@ class NewMessage extends React.Component<INewMessageProps, formState> {
             selectedGroups: [],
             errorImageUrlMessage: "",
             errorButtonUrlMessage: "",
+            fileTitle: "",
+            file: null,
         }
     }
 
@@ -364,6 +368,15 @@ class NewMessage extends React.Component<INewMessageProps, formState> {
                                     label={this.localize("Author")}
                                     placeholder={this.localize("Author")}
                                     onChange={this.onAuthorChanged}
+                                    autoComplete="off"
+                                />
+
+                                <Input
+                                    className="inputField"
+                                    type="file"
+                                    label={this.localize("File Attachment")}
+                                    placeholder={this.localize("File Attachment")}
+                                    onChange={this.onFileChanged}
                                     autoComplete="off"
                                 />
 
@@ -653,12 +666,20 @@ class NewMessage extends React.Component<INewMessageProps, formState> {
             allUsers: this.state.allUsersOptionSelected
         };
 
+        const formData = new FormData();
+        const draftMessageString = JSON.stringify(draftMessage)
+        formData.append("draftMessage", draftMessageString);
+
+        if (this.state.file) {
+            formData.append("file", this.state.file, this.state.fileTitle);
+        }
+
         if (this.state.exists) {
             this.editDraftMessage(draftMessage).then(() => {
                 microsoftTeams.tasks.submitTask();
             });
         } else {
-            this.postDraftMessage(draftMessage).then(() => {
+            this.postDraftMessage(formData).then(() => {
                 microsoftTeams.tasks.submitTask();
             });
         }
@@ -672,7 +693,7 @@ class NewMessage extends React.Component<INewMessageProps, formState> {
         }
     }
 
-    private postDraftMessage = async (draftMessage: IDraftMessage) => {
+    private postDraftMessage = async (draftMessage: any) => {
         try {
             await createDraftNotification(draftMessage);
         } catch (error) {
@@ -867,6 +888,13 @@ class NewMessage extends React.Component<INewMessageProps, formState> {
         }
         const link = this.state.btnLink;
         adaptiveCard.onExecuteAction = function (action) { window.open(link, '_blank'); }
+    }
+
+    private onFileChanged = (event: any) => {
+        this.setState({
+            fileTitle: event.target.files[0].name,
+            file: event.target.files[0]
+        });
     }
 }
 

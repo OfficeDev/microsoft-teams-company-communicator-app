@@ -80,16 +80,39 @@ export const getCardBtnLink = (card: any) => {
     return card.actions[0].url;
 }
 
+export const getCardBtn1Title = (card: any) => {
+    return card.actions[0].title;
+}
+
+export const getCardBtn1Link = (card: any) => {
+    return card.actions[0].url;
+}
+
 export const setCardBtn = (card: any, buttonTitle?: string, buttonLink?: string) => {
     if (buttonTitle && buttonLink) {
         card.actions = [
             {
                 "type": "Action.OpenUrl",
                 "title": buttonTitle,
-                "url": buttonLink
+                "url": buttonLink,
             }
         ];
     } else {
         delete card.actions;
     }
 }
+
+export const setCardBtn1 = (card: any, buttonTitle?: string, buttonLink?: string) => {
+    if (buttonTitle && buttonLink) {
+        card.actions = [
+            {
+                "type": "Action.OpenUrl",
+                "title": buttonTitle,
+                "url": buttonLink,
+            }
+        ];
+    } else {
+        delete card.actions;
+    }
+}
+

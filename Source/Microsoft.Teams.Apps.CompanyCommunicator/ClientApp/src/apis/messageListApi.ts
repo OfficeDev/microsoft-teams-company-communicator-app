@@ -1,5 +1,6 @@
 import axios from './axiosJWTDecorator';
 import { getBaseUrl } from '../configVariables';
+import { AxiosRequestConfig } from 'axios';
 
 let baseAxiosUrl = getBaseUrl() + '/api';
 
@@ -64,8 +65,13 @@ export const updateDraftNotification = async (payload: {}): Promise<any> => {
     return await axios.put(url, payload);
 }
 
-export const createDraftNotification = async (payload: {}): Promise<any> => {
+export const createDraftNotification = async (payload: any): Promise<any> => {
     let url = baseAxiosUrl + "/draftnotifications";
+    /*const config: AxiosRequestConfig = {
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        }
+    }*/
     return await axios.post(url, payload);
 }
 

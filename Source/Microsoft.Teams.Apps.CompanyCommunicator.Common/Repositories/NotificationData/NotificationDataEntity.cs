@@ -40,6 +40,11 @@ namespace Microsoft.Teams.Apps.CompanyCommunicator.Common.Repositories.Notificat
         public string Summary { get; set; }
 
         /// <summary>
+        /// Gets or sets the file attachment path in the notification.
+        /// </summary>
+        public string FileAttachmentPath { get; set; }
+
+        /// <summary>
         /// Gets or sets the author text of the notification's content.
         /// </summary>
         public string Author { get; set; }
