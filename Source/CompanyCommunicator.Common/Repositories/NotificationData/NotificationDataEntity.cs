@@ -35,6 +35,11 @@ namespace Microsoft.Teams.Apps.CompanyCommunicator.Common.Repositories.Notificat
         /// Gets or sets the image link of the notification's content.
         /// </summary>
         public string ImageLink { get; set; }
+        
+        /// <summary>
+        /// Gets or sets the blob name for the image.
+        /// </summary>
+        public string ImageBlobName { get; set; }
 
         /// <summary>
         /// Gets or sets the summary text of the notification's content.
