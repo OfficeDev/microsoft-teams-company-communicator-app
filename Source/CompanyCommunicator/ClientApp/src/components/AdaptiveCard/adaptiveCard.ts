@@ -1,7 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import * as AdaptiveCards from "adaptivecards";
+import MarkdownIt from "markdown-it";
 import { TFunction } from "i18next";
+
+AdaptiveCards.AdaptiveCard.onProcessMarkdown = function(text, result) {
+	result.outputHtml = new MarkdownIt().render(text);
+	result.didProcess = true;
+}
 
 export const getInitAdaptiveCard = (t: TFunction) => {
     const titleTextAsString = t("TitleText");
