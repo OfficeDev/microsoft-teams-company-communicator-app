@@ -1,0 +1,187 @@
+name: Create Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      relName:
+        description: 'Release Name'
+        required: true
+env:  
+  botapp_path: ".\\Source\\CompanyCommunicator\\Microsoft.Teams.Apps.CompanyCommunicator.csproj"    
+  send_func_path: ".\\Source\\CompanyCommunicator.Send.Func\\Microsoft.Teams.Apps.CompanyCommunicator.Send.Func.csproj"
+  prep_func_path: ".\\Source\\CompanyCommunicator.Prep.Func\\Microsoft.Teams.Apps.CompanyCommunicator.Prep.Func.csproj"
+  data_func_path: ".\\Source\\CompanyCommunicator.Data.Func\\Microsoft.Teams.Apps.CompanyCommunicator.Data.Func.csproj"
+jobs:
+  build_botapp:
+    runs-on: windows-latest
+    steps:
+     - uses: actions/checkout@v2
+     
+     - name: Setup .NET
+       uses: actions/setup-dotnet@v1
+       with:
+        dotnet-version: 3.1     
+
+     - name: Publish
+       run: dotnet publish "${{env.botapp_path}}" --configuration Release
+    
+     - uses: actions/upload-artifact@v2
+       with:
+        name: BotApp
+        path: ${{ github.workspace }}\Source\CompanyCommunicator\bin\Release\netcoreapp3.1\publish\
+
+  build_send_func:
+    runs-on: windows-latest
+    steps:
+     - uses: actions/checkout@v2
+     - name: Setup .NET
+       uses: actions/setup-dotnet@v1
+       with:
+        dotnet-version: 3.1
+     - name: Restore dependencies
+       run: dotnet restore "${{env.send_func_path}}"
+     - name: Build
+       run: dotnet build "${{env.send_func_path}}" --no-restore --configuration Release
+     - name: Publish
+       run: dotnet publish "${{env.send_func_path}}" --configuration Release --no-restore --no-build
+    
+     - uses: actions/upload-artifact@v2
+       with:
+        name: SendFunc
+        path: ${{ github.workspace }}\Source\CompanyCommunicator.Send.Func\bin\Release\netcoreapp3.1\publish\
+     
+  build_prep_func:
+    runs-on: windows-latest
+    steps:
+     - uses: actions/checkout@v2
+     - name: Setup .NET
+       uses: actions/setup-dotnet@v1
+       with:
+        dotnet-version: 3.1
+     - name: Restore dependencies
+       run: dotnet restore "${{env.prep_func_path}}"
+     - name: Build
+       run: dotnet build "${{env.prep_func_path}}" --no-restore --configuration Release
+     - name: Publish
+       run: dotnet publish "${{env.prep_func_path}}" --configuration Release --no-restore --no-build
+    
+     - uses: actions/upload-artifact@v2
+       with:
+        name: PrepFunc
+        path: ${{ github.workspace }}\Source\CompanyCommunicator.Prep.Func\bin\Release\netcoreapp3.1\publish\
+
+  build_data_func:
+    runs-on: windows-latest
+    steps:
+     - uses: actions/checkout@v2
+     - name: Setup .NET
+       uses: actions/setup-dotnet@v1
+       with:
+        dotnet-version: 3.1
+     - name: Restore dependencies
+       run: dotnet restore "${{env.data_func_path}}"
+     - name: Build
+       run: dotnet build "${{env.data_func_path}}" --no-restore --configuration Release
+     - name: Publish
+       run: dotnet publish "${{env.data_func_path}}" --configuration Release --no-restore --no-build
+    
+     - uses: actions/upload-artifact@v2
+       with:
+        name: DataFunc
+        path: ${{ github.workspace }}\Source\CompanyCommunicator.Data.Func\bin\Release\netcoreapp3.1\publish\
+
+  upload_builds:
+    needs: [build_botapp, build_send_func, build_prep_func, build_data_func]
+    runs-on: ubuntu-latest      
+    steps:
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ github.event.inputs.relName }}
+        release_name: Release ${{ github.event.inputs.relName }}
+        draft: false
+        prerelease: false
+    
+    - name: Download BotApp
+      uses: actions/download-artifact@v2
+      with:
+        name: BotApp
+        path: ~/download/BotApp
+    - shell: bash    
+      run: |
+          cd ~/download/BotApp/ && zip -r botAppPackage.zip *
+    
+    - name: Upload BotApp Release Asset
+      id: upload-release-asset 
+      uses: actions/upload-release-asset@v1
+      env:
+         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
+        asset_path: /home/runner/download/BotApp/botAppPackage.zip
+        asset_name: botAppPackage.zip
+        asset_content_type: application/zip
+
+
+    - name: Download DataFunc
+      uses: actions/download-artifact@v2
+      with:
+        name: DataFunc
+        path: ~/download/DataFunc
+    - shell: bash    
+      run: |
+          cd ~/download/DataFunc/ && zip -r dataFunctionPackage.zip *
+    
+    - name: Upload DataFunc Release Asset
+      id: upload-release-asset2 
+      uses: actions/upload-release-asset@v1
+      env:
+         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }} 
+        asset_path: /home/runner/download/DataFunc/dataFunctionPackage.zip
+        asset_name: dataFunctionPackage.zip
+        asset_content_type: application/zip
+    
+    - name: Download PrepFunc
+      uses: actions/download-artifact@v2
+      with:
+        name: PrepFunc
+        path: ~/download/PrepFunc
+    - shell: bash    
+      run: |
+          cd ~/download/PrepFunc/ && zip -r prepFunctionPackage.zip *
+    
+    - name: Upload PrepFunc Release Asset
+      id: upload-release-asset3 
+      uses: actions/upload-release-asset@v1
+      env:
+         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }} 
+        asset_path: /home/runner/download/PrepFunc/prepFunctionPackage.zip
+        asset_name: prepFunctionPackage.zip
+        asset_content_type: application/zip
+
+    - name: Download SendFunc
+      uses: actions/download-artifact@v2
+      with:
+        name: SendFunc
+        path: ~/download/SendFunc
+    - shell: bash    
+      run: |
+          cd ~/download/SendFunc/ && zip -r sendFunctionPackage.zip *
+    
+    - name: Upload SendFunc Release Asset
+      id: upload-release-asset4 
+      uses: actions/upload-release-asset@v1
+      env:
+         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }} 
+        asset_path: /home/runner/download/SendFunc/sendFunctionPackage.zip
+        asset_name: sendFunctionPackage.zip
+        asset_content_type: application/zip

@@ -171,7 +171,7 @@
       "metadata": {
         "description": "The URL to the GitHub repository to deploy."
       },
-      "defaultValue": "https://github.com/OfficeDev/microsoft-teams-company-communicator-app.git"
+      "defaultValue": "https://github.com/OfficeDev/microsoft-teams-apps-company-communicator"
     },
     "gitBranch": {
       "type": "string",
@@ -179,6 +179,13 @@
         "description": "The branch of the GitHub repository to deploy."
       },
       "defaultValue": "master"
+    },
+    "releaseTag": {
+      "type": "string",
+      "metadata": {
+        "description": "The release to deploy."
+      },
+      "defaultValue": "latest"
     }
   },
   "variables": {
@@ -212,7 +219,11 @@
     "ProactivelyInstallUserApp": "[parameters('ProactivelyInstallUserApp')]",
     "UserAppExternalId": "[parameters('UserAppExternalId')]",
     "i18n:DefaultCulture": "[parameters('DefaultCulture')]",
-    "i18n:SupportedCultures": "[parameters('SupportedCultures')]"
+    "i18n:SupportedCultures": "[parameters('SupportedCultures')]",
+    "sendFunctionPackageURL": "[concat(parameters('gitRepoUrl'), '/releases/', parameters('releaseTag'), '/download/sendFunctionPackage.zip')]",
+    "dataFunctionPackageURL": "[concat(parameters('gitRepoUrl'), '/releases/', parameters('releaseTag'), '/download/dataFunctionPackage.zip')]",
+    "prepFunctionPackageURL": "[concat(parameters('gitRepoUrl'), '/releases/', parameters('releaseTag'), '/download/prepFunctionPackage.zip')]",
+    "botAppPackageURL": "[concat(parameters('gitRepoUrl'), '/releases/', parameters('releaseTag'), '/download/botAppPackage.zip')]"
   },
   "resources": [
     {
@@ -376,20 +387,18 @@
         "[resourceId('Microsoft.Web/sites', variables('prepFunctionAppName'))]",
         "[resourceId('Microsoft.Web/sites', variables('sendFunctionAppName'))]",
         "[resourceId('Microsoft.Web/sites', variables('dataFunctionAppName'))]"
-      ],
+      ],      
       "resources": [
         {
-          "apiVersion": "2016-08-01",
-          "name": "web",
-          "type": "sourcecontrols",
-          "condition": "[not(empty(parameters('gitRepoUrl')))]",
+          "name": "MSDeploy",
+          "type": "extensions",
+          "location": "[resourceGroup().location]",
+          "apiVersion": "2018-11-01",
           "dependsOn": [
-            "[resourceId('Microsoft.Web/sites', variables('botAppName'))]"
+            "[concat('Microsoft.Web/sites/', variables('botAppName'))]"
           ],
           "properties": {
-            "RepoUrl": "[parameters('gitRepoUrl')]",
-            "branch": "[parameters('gitBranch')]",
-            "IsManualIntegration": true
+            "packageUri": "[variables('botAppPackageURL')]"
           }
         }
       ]
@@ -601,8 +610,8 @@
           "alwaysOn": "[not(variables('isSharedPlan'))]",
           "appSettings": [
             {
-              "name": "PROJECT",
-              "value": "Source\\CompanyCommunicator.Prep.Func\\Microsoft.Teams.Apps.CompanyCommunicator.Prep.Func.csproj"
+              "name": "WEBSITE_RUN_FROM_PACKAGE",
+              "value": "1"
             },
             {
               "name": "SITE_ROLE",
@@ -687,23 +696,21 @@
         "[resourceId('Microsoft.Web/serverfarms', variables('hostingPlanName'))]",
         "[resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName'))]",
         "[resourceId('Microsoft.ServiceBus/namespaces', variables('serviceBusNamespaceName'))]"
-      ],
+      ],     
       "resources": [
         {
-          "apiVersion": "2015-08-01",
-          "name": "web",
-          "type": "sourcecontrols",
-          "condition": "[not(empty(parameters('gitRepoUrl')))]",
+          "name": "ZipDeploy",
+          "type": "extensions",
+          "location": "[resourceGroup().location]",
+          "apiVersion": "2018-11-01",
           "dependsOn": [
             "[resourceId('Microsoft.Web/sites', variables('prepFunctionAppName'))]"
           ],
           "properties": {
-            "RepoUrl": "[parameters('gitRepoUrl')]",
-            "branch": "[parameters('gitBranch')]",
-            "IsManualIntegration": true
+            "packageUri": "[variables('prepFunctionPackageURL')]"
           }
         }
-      ]
+      ] 
     },
     {
       "apiVersion": "2016-08-01",
@@ -721,8 +728,8 @@
           "alwaysOn": "[not(variables('isSharedPlan'))]",
           "appSettings": [
             {
-              "name": "PROJECT",
-              "value": "Source\\CompanyCommunicator.Send.Func\\Microsoft.Teams.Apps.CompanyCommunicator.Send.Func.csproj"
+              "name": "WEBSITE_RUN_FROM_PACKAGE",
+              "value": "1"
             },
             {
               "name": "SITE_ROLE",
@@ -791,20 +798,18 @@
         "[resourceId('Microsoft.Web/serverfarms', variables('hostingPlanName'))]",
         "[resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName'))]",
         "[resourceId('Microsoft.ServiceBus/namespaces', variables('serviceBusNamespaceName'))]"
-      ],
+      ],      
       "resources": [
         {
-          "apiVersion": "2015-08-01",
-          "name": "web",
-          "type": "sourcecontrols",
-          "condition": "[not(empty(parameters('gitRepoUrl')))]",
+          "name": "ZipDeploy",
+          "type": "extensions",
+          "location": "[resourceGroup().location]",
+          "apiVersion": "2018-11-01",
           "dependsOn": [
-            "[resourceId('Microsoft.Web/sites', variables('sendFunctionAppName'))]"
+            "[concat('Microsoft.Web/sites/', variables('sendFunctionAppName'))]"
           ],
           "properties": {
-            "RepoUrl": "[parameters('gitRepoUrl')]",
-            "branch": "[parameters('gitBranch')]",
-            "IsManualIntegration": true
+            "packageUri": "[variables('sendFunctionPackageURL')]"
           }
         }
       ]
@@ -825,8 +830,8 @@
           "alwaysOn": "[not(variables('isSharedPlan'))]",
           "appSettings": [
             {
-              "name": "PROJECT",
-              "value": "Source\\CompanyCommunicator.Data.Func\\Microsoft.Teams.Apps.CompanyCommunicator.Data.Func.csproj"
+              "name": "WEBSITE_RUN_FROM_PACKAGE",
+              "value": "1"
             },
             {
               "name": "SITE_ROLE",
@@ -910,20 +915,18 @@
       ],
       "resources": [
         {
-          "apiVersion": "2015-08-01",
-          "name": "web",
-          "type": "sourcecontrols",
-          "condition": "[not(empty(parameters('gitRepoUrl')))]",
+          "name": "ZipDeploy",
+          "type": "extensions",
+          "location": "[resourceGroup().location]",
+          "apiVersion": "2018-11-01",
           "dependsOn": [
-            "[resourceId('Microsoft.Web/sites', variables('dataFunctionAppName'))]"
+            "[concat('Microsoft.Web/sites/', variables('dataFunctionAppName'))]"
           ],
           "properties": {
-            "RepoUrl": "[parameters('gitRepoUrl')]",
-            "branch": "[parameters('gitBranch')]",
-            "IsManualIntegration": true
+            "packageUri": "[variables('dataFunctionPackageURL')]"
           }
         }
-      ]
+      ]      
     },
     {
       "apiVersion": "2019-04-01",
