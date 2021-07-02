@@ -22,7 +22,7 @@
     "short": "Broadcast messages to multiple teams and people in one go",
     "full": "Broadcasts messages to multiple teams and individuals through channel posts and chat messages"
   },
-  "accentColor": "#64A2CC",
+  "accentColor": "#5558AF",
   "configurableTabs": [{
     "configurationUrl": "https://<<appDomain>>/configtab",
     "canUpdateConfiguration": true,
