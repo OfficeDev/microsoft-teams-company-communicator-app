@@ -46,8 +46,8 @@ namespace Microsoft.Teams.Apps.CompanyCommunicator.Authentication
         {
             AuthenticationServiceCollectionExtensions.ValidateAuthenticationOptions(authenticationOptions);
 
-            services.AddProtectedWebApi(configuration)
-                    .AddProtectedWebApiCallsProtectedWebApi(configuration)
+            services.AddMicrosoftIdentityWebApiAuthentication(configuration)
+                    .EnableTokenAcquisitionToCallDownstreamApi()
                     .AddInMemoryTokenCaches();
             services.Configure<JwtBearerOptions>(JwtBearerDefaults.AuthenticationScheme, options =>
             {
