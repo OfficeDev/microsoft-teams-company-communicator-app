@@ -5,6 +5,7 @@
 
 namespace Microsoft.Teams.Apps.CompanyCommunicator.Models
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
@@ -46,6 +47,11 @@ namespace Microsoft.Teams.Apps.CompanyCommunicator.Models
         /// Gets or sets a value indicating whether a notification should be sent to all the users.
         /// </summary>
         public bool AllUsers { get; set; }
+
+        /// <summary>
+        /// Gets or sets ScheduledDate value.
+        /// </summary>
+        public DateTime? ScheduledDate { get; set; }
 
         /// <summary>
         /// Validates a draft notification.

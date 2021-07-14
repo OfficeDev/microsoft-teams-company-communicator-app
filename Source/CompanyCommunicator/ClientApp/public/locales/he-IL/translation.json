@@ -83,5 +83,20 @@
   "ExportErrorMessage": "נסה שוב לייצא את התוצאות. אם הבעיה נמשכת, פנה למנהל ה-IT לקבלת עזרה.",
   "ExportButtonText": "הצג תוצאות מפורטות",
   "ExportButtonProgressText": "מתבצע ייצוא",
-  "ErrorURLMessage": "כתובת URL חייבת להתחיל ב- https://‏"
+  "ErrorURLMessage": "כתובת URL חייבת להתחיל ב- https://‏",
+  "ErrorImageTooBig": "התמונה גדולה מדי!",
+  "UploadImage": "העלה",
+  "FutureDateError": "אתה צריך לתזמן לפחות 30 דקות בעתיד.",
+  "ScheduledSend": "שליחה מתוזמנת",
+  "ScheduledMessagesSectionTitle": "הודעות מתוזמנות",
+  "EmptyScheduledMessages": "אין לך הודעות מתוזמנות.",
+  "SendNow": "שלח עכשיו",
+  "ScheduledDate": "מתוזמן ל",
+  "Important": "הודעה חשובה",
+  "ImportantDescription": "אפשרות זו מסמנת את ההודעה כחשובה. הנמענים יקבלו את ההודעה ויודיעו להם באמצעות התראת Teams.",
+  "ScheduledSendDescription": "בחר תאריך ושעה לתזמון ההודעה. נא לתזמן לפחות 30 דקות בעתיד.",
+  "Add": "הוסף",
+  "Buttons": "לחצנים",
+  "NoButtons": "לא הוגדרו לחצנים. לחץ על (+) כדי לכלול לחצנים ופעולות בהודעה.",
+  "ErrorImageTooBigSize": "נא העלה תמונה דחוסה JPEG (או שווה ערך) בגודל המרבי של"
 }

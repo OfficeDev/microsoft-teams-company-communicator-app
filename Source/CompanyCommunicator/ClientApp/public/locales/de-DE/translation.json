@@ -83,5 +83,20 @@
   "ExportErrorMessage": "Versuchen Sie noch Mal, die Ergebnisse zu exportieren. Wenn das Problem weiterhin besteht, wenden Sie sich wegen Hilfe an Ihren IT-Administrator.",
   "ExportButtonText": "Detaillierte Ergebnisse exportieren",
   "ExportButtonProgressText": "Export in Bearbeitung",
-  "ErrorURLMessage": "URL muss mit https:// beginnen"
+  "ErrorURLMessage": "URL muss mit https:// beginnen",
+  "ErrorImageTooBig": "Das Bild ist zu groß!",
+  "UploadImage": "Upload",
+  "FutureDateError": "Sie müssen in Zukunft mindestens 30 Minuten einplanen.",
+  "ScheduledSend": "Scheduled Send",
+  "ScheduledMessagesSectionTitle": "Geplante Nachrichten",
+  "EmptyScheduledMessages": "Sie haben keine geplanten Nachrichten.",
+  "SendNow": "Jetzt senden",
+  "ScheduledDate": "Geplant",
+  "Important": "Wichtige Botschaft",
+  "ImportantDescription": "Diese Option kennzeichnet die Nachricht als wichtig. Die Empfänger erhalten die Nachricht und werden mit einer Teams-Warnung benachrichtigt.",
+  "ScheduledSendDescription": "Wählen Sie ein Datum und eine Uhrzeit aus, um Ihre Nachricht zu planen. Bitte planen Sie mindestens 30 Minuten in der Zukunft.",
+  "Add": "Hinzufügen",
+  "Buttons": "Schaltflächen",
+  "NoButtons": "Es wurden keine Schaltflächen definiert. Klicken Sie auf (+), um Schaltflächen und Aktionen in die Nachricht aufzunehmen.",
+  "ErrorImageTooBigSize": "Bitte laden Sie ein JPEG (oder gleichwertiges) komprimiertes Bild mit einer maximalen Größe von"
 }

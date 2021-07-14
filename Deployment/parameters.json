@@ -60,7 +60,7 @@
     "Description": "The size of the hosting plan (small - 1, medium - 2, or large - 3). Default value: 1"
   },
   "gitRepoUrl": {
-    "Value": "https://github.com/OfficeDev/microsoft-teams-company-communicator-app.git",
+    "Value": "https://github.com/cristianoag/microsoft-teams-apps-company-communicator.git",
     "Description": "The URL to the GitHub repository to deploy."
   },
   "gitBranch": {
@@ -76,7 +76,7 @@
     "Description": "The app (and bot) description."
   },
   "appIconUrl": {
-    "Value": "https://raw.githubusercontent.com/OfficeDev/microsoft-teams-company-communicator-app/master/Manifest/color.png",
+    "Value": "https://raw.githubusercontent.com/cristianoag/microsoft-teams-apps-company-communicator/master/Manifest/color.png",
     "Description": "The link to the icon for the app. It must resolve to a PNG file."
   },
   "companyName": {

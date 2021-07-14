@@ -83,5 +83,20 @@
   "ExportErrorMessage": "Réessayez d’exporter les résultats. Si le problème persiste, contactez votre administrateur informatique pour obtenir de l’aide.",
   "ExportButtonText": "Exporter les résultats détaillés",
   "ExportButtonProgressText": "L’exportation est en cours... Merci de patienter.",
-  "ErrorURLMessage": "L'URL doit commencer par https://"
+  "ErrorURLMessage": "L'URL doit commencer par https://",
+  "ErrorImageTooBig": "L’image est trop grande!",
+  "UploadImage": "Télécharge",
+  "FutureDateError": "Vous devez programmer au moins 30 minutes à l’avenir.",
+  "ScheduledSend": "Envoi programmé",
+  "ScheduledMessagesSectionTitle": "Messages programmés",
+  "EmptyScheduledMessages": "Vous n’avez pas de messages programmés.",
+  "SendNow": "Envoyer maintenant",
+  "ScheduledDate": "Prévu pour",
+  "Important": "Message Important",
+  "ImportantDescription": "Cette option signale le message comme important. Les destinataires recevront le message et seront informés par une alerte des équipes.",
+  "ScheduledSendDescription": "Sélectionnez une date et une heure pour planifier votre message. Veuillez planifier au moins 30 minutes à l’avenir.",
+  "Add": "Ajouter",
+  "Buttons": "Boutons",
+  "NoButtons": "Aucun bouton défini. Cliquez (+) pour inclure des boutons et des actions sur le message.",
+  "ErrorImageTooBigSize": "Veuillez télécharger une image compressée JPEG (ou équivalent) avec une taille maximale de"
 }

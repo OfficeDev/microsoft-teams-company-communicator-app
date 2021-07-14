@@ -22,6 +22,7 @@
   "InstallingApp": "Installing app...",
   "SendingMessages": "Sending... {{SentCount}} of {{TotalCount}}",
   "ImageURL": "Image URL",
+  "ImageURLPlaceHolder": "Enter image link or click upload",
   "Summary": "Summary",
   "Author": "Author",
   "Author1": "- Author",
@@ -83,5 +84,21 @@
   "ExportErrorMessage": "Try exporting the results again. If the problem persists, contact your IT admin for help.",
   "ExportButtonText": "Export detailed results",
   "ExportButtonProgressText": "Export in progress",
-  "ErrorURLMessage": "URL must start with https://"
+  "ErrorURLMessage": "URL must start with https://",
+  "ErrorImageTooBig": "The image is too big!",
+  "UploadImage": "Upload",
+  "FutureDateError": "You need to schedule at least 30 minutes in the future.",
+  "ScheduledSend": "Scheduled Send",
+  "ScheduledMessagesSectionTitle": "Scheduled messages",
+  "EmptyScheduledMessages": "You have no scheduled messages.",
+  "SendNow": "Send Now",
+  "ScheduledDate": "Scheduled to",
+  "Important": "Important Message",
+  "ImportantDescription": "This option flags the message as important. Recipients will receive the message and be notified with a Teams alert.",
+  "ScheduledSendDescription": "Select a date and time to schedule your message. Please schedule at least 30 minutes in the future.",
+  "Add": "Add",
+  "Buttons": "Buttons",
+  "NoButtons": "No buttons defined. Click (+) to include buttons and actions on the message.",
+  "ErrorImageTooBigSize": "Please upload a JPEG (or equivalent) compressed image with maximum size of"
+
 }

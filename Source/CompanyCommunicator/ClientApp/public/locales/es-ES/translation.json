@@ -22,6 +22,7 @@
   "InstallingApp": "Instalando aplicación...",
   "SendingMessages": "Enviando... {{SentCount}} de {{TotalCount}}",
   "ImageURL": "URL de la imagen",
+  "ImageURLPlaceHolder": "Enlace de imagen o clic en cargar",
   "Summary": "Resumen",
   "Author": "Autor",
   "Author1": "- Autor",
@@ -83,5 +84,21 @@
   "ExportErrorMessage": "Intente volver a exportar los resultados. Si el problema persiste, póngase en contacto con su administrador de TI para obtener ayuda.",
   "ExportButtonText": "Exportar resultados detallados",
   "ExportButtonProgressText": "Exportación en curso",
-  "ErrorURLMessage": "La URL debe empezar por https://"
+  "ErrorURLMessage": "La URL debe empezar por https://",
+  "ErrorImageTooBig": "¡La imagen es demasiado grande!",
+  "UploadImage": "Subir",
+  "FutureDateError": "Es necesario programar al menos 30 minutos en el futuro.",
+  "ScheduledSend": "Envío programado",
+  "ScheduledMessagesSectionTitle": "Mensajes programados",
+  "EmptyScheduledMessages": "No tiene mensajes enviados.",
+  "SendNow": "Enviar ahora",
+  "ScheduledDate": "Programado para",
+  "Important": "Mensaje Importante",
+  "ImportantDescription": "Esta opción marca el mensaje como importante. Los destinatarios recibirán el mensaje y se le notificará con una alerta de Teams.",
+  "ScheduledSendDescription": "Seleccione una fecha y hora para programar el mensaje. Por favor, programe al menos 30 minutos en el futuro.",
+  "Add": "Agregar",
+  "Buttons": "Botones",
+  "NoButtons": "Sin botones definidos. Haga clic en (+) para incluir botones y acciones en el mensaje.",
+  "ErrorImageTooBigSize": "Cargue una imagen comprimida JPEG (o equivalente) con un tamaño máximo de"
 }
+  

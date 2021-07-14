@@ -12,7 +12,7 @@ import { Loader, List, Image, Button, DownloadIcon, AcceptIcon, Flex } from '@fl
 import * as microsoftTeams from "@microsoft/teams-js";
 import {
     getInitAdaptiveCard, setCardTitle, setCardImageLink, setCardSummary,
-    setCardAuthor, setCardBtn
+    setCardAuthor, setCardBtns
 } from '../AdaptiveCard/adaptiveCard';
 import { ImageUtil } from '../../utility/imageutility';
 import { formatDate, formatDuration, formatNumber } from '../../i18n';
@@ -48,6 +48,8 @@ export interface IMessage {
     warningMessage?: string;
     canDownload?: boolean;
     sendingCompleted?: boolean;
+    buttons: string;
+    isImportant?: boolean;
 }
 
 export interface IStatusState {
@@ -63,7 +65,8 @@ class StatusTaskModule extends React.Component<StatusTaskModuleProps, IStatusSta
     readonly localize: TFunction;
     private initMessage = {
         id: "",
-        title: ""
+        title: "",
+        buttons: "[]",
     };
 
     private card: any;
@@ -102,8 +105,16 @@ class StatusTaskModule extends React.Component<StatusTaskModuleProps, IStatusSta
                     setCardImageLink(this.card, this.state.message.imageLink);
                     setCardSummary(this.card, this.state.message.summary);
                     setCardAuthor(this.card, this.state.message.author);
-                    if (this.state.message.buttonTitle !== "" && this.state.message.buttonLink !== "") {
-                        setCardBtn(this.card, this.state.message.buttonTitle, this.state.message.buttonLink);
+                        
+                    if (this.state.message.buttonTitle && this.state.message.buttonLink && !this.state.message.buttons) {
+                        setCardBtns(this.card, [{
+                            "type": "Action.OpenUrl",
+                            "title": this.state.message.buttonTitle,
+                            "url": this.state.message.buttonLink,
+                        }]);
+                        }
+                        else {
+                            setCardBtns(this.card, JSON.parse(this.state.message.buttons));
                     }
 
                     let adaptiveCard = new AdaptiveCards.AdaptiveCard();
@@ -176,6 +187,10 @@ class StatusTaskModule extends React.Component<StatusTaskModuleProps, IStatusSta
                                                     <label>{this.localize("Unknown", { "UnknownCount": this.state.message.unknown })}</label>
                                                 </>
                                             }
+                                        </div>
+                                        <div className="contentField">
+                                            <h3>{this.localize("Important")}</h3>
+                                            <label>{this.renderImportant()}</label>
                                         </div>
                                         <div className="contentField">
                                             {this.renderAudienceSelection()}
@@ -290,6 +305,19 @@ class StatusTaskModule extends React.Component<StatusTaskModuleProps, IStatusSta
         }
         return resultedTeams;
     }
+
+    private renderImportant = () => {
+        if (this.state.message.isImportant) {
+            return (
+                <label>Yes</label>
+            )
+        } else {
+            return (
+                <label>No</label>
+            )
+        }
+    }
+
     private renderAudienceSelection = () => {
         if (this.state.message.teamNames && this.state.message.teamNames.length > 0) {
             return (

@@ -83,5 +83,20 @@
   "ExportErrorMessage": "حاول تصدير النتائج مره أخرى. إذا استمرت المشكلة ، اتصل بمسؤول تكنولوجيا المساعدة لديك للمساعدة.",
   "ExportButtonText": "تصدير النتائج التفصيلية",
   "ExportButtonProgressText": "التصدير قيد التقدم",
-  "ErrorURLMessage": "يجب أن يبدأ عنوان URL بـ https://"
+  "ErrorURLMessage": "يجب أن يبدأ عنوان URL بـ https://",
+  "ErrorImageTooBig": "الصورة كبيرة جدا!",
+  "UploadImage": "تحميل",
+  "FutureDateError": "تحتاج إلى جدولة 30 دقيقة على الأقل في المستقبل.",
+  "ScheduledSend": "إرسال مجدول",
+  "ScheduledMessagesSectionTitle": "الرسائل المجدولة",
+  "EmptyScheduledMessages": "ليس لديك رسائل مجدولة.",
+  "SendNow": "إرسال الآن",
+  "ScheduledDate": "المقررة",
+  "Important": "رسالة هامة",
+  "ImportantDescription": "يشير هذا الخيار إلى الرسالة على أنها مهمة. سيتلقى المستلمون الرسالة وسيتم إعلامهم بتنبيه الفرق.",
+  "ScheduledSendDescription": "حدد تاريخا ووقتا لجدولة رسالتك. يرجى تحديد موعد لا يقل عن 30 دقيقة في المستقبل.",
+  "Add": "جمع",
+  "Buttons": "ازرار",
+  "NoButtons": "لا توجد أزرار محددة. انقر فوق (+) لتضمين الأزرار والإجراءات على الرسالة.",
+  "ErrorImageTooBigSize": "الرجاء تحميل صورة مضغوطة JPEG (أو ما يعادلها) مع الحد الأقصى لحجم"
 }

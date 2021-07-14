@@ -171,7 +171,7 @@
       "metadata": {
         "description": "The URL to the GitHub repository to deploy."
       },
-      "defaultValue": "https://github.com/OfficeDev/microsoft-teams-company-communicator-app.git"
+      "defaultValue": "https://github.com/cristianoag/microsoft-teams-company-communicator-app.git"
     },
     "gitBranch": {
       "type": "string",

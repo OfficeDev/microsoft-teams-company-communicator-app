@@ -25,6 +25,18 @@ namespace Microsoft.Teams.Apps.CompanyCommunicator.Common.Repositories.Notificat
         public Task<IEnumerable<NotificationDataEntity>> GetAllDraftNotificationsAsync();
 
         /// <summary>
+        /// Get all scheduled notification entities from the table storage. Scheduled notifications are draft notifications with IsScheduled equal true.
+        /// </summary>
+        /// <returns>All scheduled notification entities.</returns>
+        public Task<IEnumerable<NotificationDataEntity>> GetAllScheduledNotificationsAsync();
+
+        /// <summary>
+        /// Get all pending scheduled notification entities from the table storage. Pending Scheduled notifications are draft notifications with IsScheduled equal true and scheduled date previous than now.
+        /// </summary>
+        /// <returns>All pending scheduled notification entities.</returns>
+        public Task<IEnumerable<NotificationDataEntity>> GetAllPendingScheduledNotificationsAsync();
+
+        /// <summary>
         /// Get the top 25 most recently sent notification entities from the table storage.
         /// </summary>
         /// <returns>The top 25 most recently sent notification entities.</returns>

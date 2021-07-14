@@ -11,6 +11,11 @@ export const getSentNotifications = async (): Promise<any> => {
     return await axios.get(url);
 }
 
+export const getScheduledNotifications = async (): Promise<any> => {
+    let url = baseAxiosUrl + "/draftnotifications/scheduled";
+    return await axios.get(url);
+}
+
 export const getDraftNotifications = async (): Promise<any> => {
     let url = baseAxiosUrl + "/draftnotifications";
     return await axios.get(url);

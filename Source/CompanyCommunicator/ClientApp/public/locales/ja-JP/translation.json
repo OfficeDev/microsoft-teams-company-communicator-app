@@ -83,5 +83,20 @@
   "ExportErrorMessage": "結果を再度エクスポートしてみてください。問題が解決しない場合は、IT 管理者にお問い合わせください。",
   "ExportButtonText": "詳細な結果のエクスポート",
   "ExportButtonProgressText": "エクスポートが進行中",
-  "ErrorURLMessage": "URL は https:// で開始する必要があります。"
+  "ErrorURLMessage": "URL は https:// で開始する必要があります。",
+  "ErrorImageTooBig": "画像が大きすぎます!",
+  "UploadImage": "アップロード",
+  "FutureDateError": "少なくとも 30 分は、今後スケジュールする必要があります。",
+  "ScheduledSend": "スケジュールされた送信",
+  "ScheduledMessagesSectionTitle": "スケジュールされたメッセージ",
+  "EmptyScheduledMessages": "スケジュールされたメッセージがありません。",
+  "SendNow": "今すぐ送信",
+  "ScheduledDate": "スケジュール",
+  "Important": "重要なメッセージ",
+  "ImportantDescription": "このオプションは、メッセージに重要なフラグを付けます。受信者はメッセージを受信し、チームの警告を通知します。",
+  "ScheduledSendDescription": "メッセージをスケジュールする日時を選択します。少なくとも30分は予定してください。",
+  "Add": "足す",
+  "Buttons": "ボタン",
+  "NoButtons": "ボタンが定義されていません。ボタンとアクションをメッセージに含めるには、(+)をクリックします。",
+  "ErrorImageTooBigSize": "最大サイズの JPEG (または同等の) 圧縮画像をアップロードしてください"
 }

@@ -9,6 +9,7 @@ namespace Microsoft.Teams.Apps.CompanyCommunicator.Send.Func
     using System.Threading.Tasks;
     using Microsoft.Azure.WebJobs;
     using Microsoft.Bot.Builder;
+    using Microsoft.Bot.Builder.Teams;
     using Microsoft.Bot.Schema;
     using Microsoft.Extensions.Localization;
     using Microsoft.Extensions.Logging;
@@ -151,6 +152,13 @@ namespace Microsoft.Teams.Apps.CompanyCommunicator.Send.Func
 
                 // Send message.
                 var messageActivity = await this.GetMessageActivity(messageContent);
+
+                // If the message is important, we need to notify the user in Teams
+                if (messageContent.IsImportant)
+                {
+                    messageActivity.TeamsNotifyUser();
+                }
+
                 var response = await this.messageService.SendMessageAsync(
                     message: messageActivity,
                     serviceUrl: messageContent.GetServiceUrl(),

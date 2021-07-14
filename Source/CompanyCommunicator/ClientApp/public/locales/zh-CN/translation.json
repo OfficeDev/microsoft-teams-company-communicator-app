@@ -83,5 +83,20 @@
   "ExportErrorMessage": "请再次尝试导出结果。如果问题仍然存在，请与你的 IT 管理员联系以获得帮助。",
   "ExportButtonText": "导出详细结果",
   "ExportButtonProgressText": "正在导出",
-  "ErrorURLMessage": "URL 必须以 https:// 开头"
+  "ErrorURLMessage": "URL 必须以 https:// 开头",
+  "ErrorImageTooBig": "形象太大了！",
+  "UploadImage": "上传",
+  "FutureDateError": "您将来至少需要安排 30 分钟。",
+  "ScheduledSend": "计划发送",
+  "ScheduledMessagesSectionTitle": "计划消息",
+  "EmptyScheduledMessages": "您没有计划的消息。",
+  "SendNow": "立即发送",
+  "ScheduledDate": "计划为",
+  "Important": "重要消息",
+  "ImportantDescription": "此选项标记消息非常重要。收件人将收到消息，并收到团队警报通知。",
+  "ScheduledSendDescription": "选择日期和时间来安排您的邮件。请安排至少30分钟的未来。",
+  "Add": "加",
+  "Buttons": "按钮",
+  "NoButtons": "未定义按钮。单击 （+） 以在邮件上包含按钮和操作。",
+  "ErrorImageTooBigSize": "请上传最大尺寸的 JPEG（或等效）压缩图像"
 }

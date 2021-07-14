@@ -16,6 +16,11 @@ namespace Microsoft.Teams.Apps.CompanyCommunicator.Common.Services.MessageQueues
         public string NotificationId { get; set; }
 
         /// <summary>
+        /// Gets or sets a value indicating whether is the message is important.
+        /// </summary>
+        public bool IsImportant { get; set; }
+
+        /// <summary>
         /// Gets or sets the information about the recipient. This
         /// holds enough information for the Azure Function to send this
         /// recipient a notification.

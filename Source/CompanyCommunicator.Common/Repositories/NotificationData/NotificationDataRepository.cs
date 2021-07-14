@@ -8,6 +8,7 @@ namespace Microsoft.Teams.Apps.CompanyCommunicator.Common.Repositories.Notificat
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
+    using Microsoft.Azure.Cosmos.Table;
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Options;
 
@@ -42,7 +43,36 @@ namespace Microsoft.Teams.Apps.CompanyCommunicator.Common.Repositories.Notificat
         /// <inheritdoc/>
         public async Task<IEnumerable<NotificationDataEntity>> GetAllDraftNotificationsAsync()
         {
-            var result = await this.GetAllAsync(NotificationDataTableNames.DraftNotificationsPartition);
+            string strFilter = TableQuery.GenerateFilterConditionForBool("IsScheduled", QueryComparisons.Equal, false);
+            var result = await this.GetWithFilterAsync(strFilter, NotificationDataTableNames.DraftNotificationsPartition);
+
+            return result;
+        }
+
+        /// <summary>
+        /// Get all scheduled notification entities from the table storage. Scheduled notifications are draft notifications with IsScheduled equal true.
+        /// </summary>
+        /// <returns>All scheduled notification entities.</returns>
+        public async Task<IEnumerable<NotificationDataEntity>> GetAllScheduledNotificationsAsync()
+        {
+            string strFilter = TableQuery.GenerateFilterConditionForBool("IsScheduled", QueryComparisons.Equal, true);
+            var result = await this.GetWithFilterAsync(strFilter, NotificationDataTableNames.DraftNotificationsPartition);
+
+            return result;
+        }
+
+        /// <summary>
+        /// Get all pending scheduled notification entities from the table storage. Pending Scheduled notifications are draft notifications with IsScheduled equal true and scheduled date previous than now.
+        /// </summary>
+        /// <returns>All pending scheduled notification entities.</returns>
+        public async Task<IEnumerable<NotificationDataEntity>> GetAllPendingScheduledNotificationsAsync()
+        {
+            DateTime now = DateTime.UtcNow;
+            string filter1 = TableQuery.GenerateFilterConditionForBool("IsScheduled", QueryComparisons.Equal, true);
+            string filter2 = TableQuery.GenerateFilterConditionForDate("ScheduledDate", QueryComparisons.LessThanOrEqual, now);
+            string filter = TableQuery.CombineFilters(filter1, TableOperators.And, filter2);
+
+            var result = await this.GetWithFilterAsync(filter, NotificationDataTableNames.DraftNotificationsPartition);
 
             return result;
         }
@@ -50,7 +80,7 @@ namespace Microsoft.Teams.Apps.CompanyCommunicator.Common.Repositories.Notificat
         /// <inheritdoc/>
         public async Task<IEnumerable<NotificationDataEntity>> GetMostRecentSentNotificationsAsync()
         {
-            var result = await this.GetAllAsync(NotificationDataTableNames.SentNotificationsPartition, 25);
+            var result = await this.GetAllAsync(NotificationDataTableNames.SentNotificationsPartition, 20);
 
             return result;
         }
@@ -79,10 +109,14 @@ namespace Microsoft.Teams.Apps.CompanyCommunicator.Common.Repositories.Notificat
                     Author = draftNotificationEntity.Author,
                     ButtonTitle = draftNotificationEntity.ButtonTitle,
                     ButtonLink = draftNotificationEntity.ButtonLink,
+                    Buttons = draftNotificationEntity.Buttons,
                     CreatedBy = draftNotificationEntity.CreatedBy,
                     CreatedDate = draftNotificationEntity.CreatedDate,
                     SentDate = null,
                     IsDraft = false,
+                    IsImportant = draftNotificationEntity.IsImportant,
+                    IsScheduled = draftNotificationEntity.IsScheduled,
+                    ScheduledDate = draftNotificationEntity.ScheduledDate,
                     Teams = draftNotificationEntity.Teams,
                     Rosters = draftNotificationEntity.Rosters,
                     Groups = draftNotificationEntity.Groups,
@@ -130,6 +164,8 @@ namespace Microsoft.Teams.Apps.CompanyCommunicator.Common.Repositories.Notificat
                     Author = notificationEntity.Author,
                     ButtonTitle = notificationEntity.ButtonTitle,
                     ButtonLink = notificationEntity.ButtonLink,
+                    Buttons = notificationEntity.Buttons,
+                    IsImportant = notificationEntity.IsImportant,
                     CreatedBy = createdBy,
                     CreatedDate = DateTime.UtcNow,
                     IsDraft = true,
